@@ -27,14 +27,25 @@ function GamePerDay(){
 
 }
 
+function MonthlyFeedback(){
+
+Days_Won=0;
+
 for (( num_of_days=1; num_of_days<=$Days_Limit; num_of_days++ ))
 do
 	GamePerDay 
 
 	if [ $Stake_Left -gt $BASE_STAKE ]
 	then
-		echo "amount won on day "$num_of_days" is :"$(( $Stake_Left-$BASE_STAKE ))
-	else
-		 echo "amount lost on day "$num_of_days" is :"$(( $BASE_STAKE-$Stake_Left ))
+		Days_Won=$(( $Days_Won+1 ))
+		#echo "amount won on day "$num_of_days" is :"$(( $Stake_Left-$BASE_STAKE ))
+	#else
+		# echo "amount lost on day "$num_of_days" is :"$(( $BASE_STAKE-$Stake_Left ))
 	fi
+
+	echo "total days won is : "$Days_Won
+	echo "total days lost is : "$(( $Days_Limit-$Days_Won ))
+	echo "total 
 done
+
+}
