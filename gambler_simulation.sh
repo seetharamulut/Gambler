@@ -31,11 +31,22 @@ function GamePerDay(){
 
 }
 
-for (( num_of_days=1; num_of_days<=$Days_Limit; num_of_days++ ))
-do
-	GamePerDay 
-done
+function MonthlyFeedback(){
 
-		echo "total amount won is : "$Total_Stake_Won
-		echo "total amount lost is : "$Total_Stake_Lost
+	for (( num_of_days=1; num_of_days<=$Days_Limit; num_of_days++ ))
+	do
+		GamePerDay 
+
+		if [ $Stake_Left -gt $BASE_STAKE ]
+		then
+			echo "amount won on day "$num_of_days" is :"$(( $Stake_Left-$BASE_STAKE ))
+		else
+			echo "amount lost on day "$num_of_days" is :"$(( $BASE_STAKE-$Stake_Left ))
+		fi
+
+	done
+
+}
+
+MonthlyFeedback
 
