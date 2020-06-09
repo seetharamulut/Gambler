@@ -2,6 +2,6 @@
 
 echo "Welcome To Gambling"
 
-BASE_stakE=100
+BASE_STAKE=100
 MIN_BET_STAKE=1
 
