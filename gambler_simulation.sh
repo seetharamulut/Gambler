@@ -4,6 +4,7 @@ echo "Welcome To Gambling"
 
 BASE_STAKE=100
 MIN_BET_STAKE=1
+Won=1
 
 declare -A DailyProfit
 
@@ -52,6 +53,11 @@ function LuckyAndUnluckyDay(){
 
 	MonthlyFeedback
 
+	if [ $Total_Profit -le 0 ]
+	then
+		Won=0;
+	fi
+
 	echo "most luckiest day is : "
 	for element in ${!DailyProfit[*]}
 	do
@@ -66,4 +72,7 @@ function LuckyAndUnluckyDay(){
 
 }
 
-LuckyAndUnluckyDay
+while [ $Won -eq 1 ]
+do
+	LuckyAndUnluckyDay
+done
