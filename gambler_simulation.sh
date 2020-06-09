@@ -4,11 +4,13 @@ echo "Welcome To Gambling"
 
 BASE_STAKE=100
 MIN_BET_STAKE=1
+Total_Stake_won=0
+Total_Stake_Lost=0
 
 read -p "enter the percentage of stack won or lost to quit game  " Quit_Percentage
 Quit_Stake=$(( ($Quit_Percentage*$BASE_STAKE)/100 ))
 
-read -p "enter num of days to play the game" Days_Limit
+read -p "enter num of days to play the game " Days_Limit
 
 function GamePerDay(){
 
@@ -18,9 +20,11 @@ function GamePerDay(){
 	do
 		case $(( $RANDOM%2 )) in
 
-			0) Stake_Left=$(( $Stake_Left-1 )) ;;
+			0) Stake_Left=$(( $Stake_Left-1 ))
+			   Total_Stake_Lost=$(( $Total_Stake_Lost+1 )) ;;
 
-			1) Stake_Left=$(( $Stake_Left+1 )) ;;
+			1) Stake_Left=$(( $Stake_Left+1 ))
+			   Total_Stake_Won=$(( $Total_Stake_Won+1 )) ;;
 		esac
 	done
 
@@ -45,3 +49,4 @@ function MonthlyFeedback(){
 }
 
 MonthlyFeedback
+
