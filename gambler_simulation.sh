@@ -5,76 +5,76 @@ echo "Welcome To Gambling"
 BASE_STAKE=100
 MIN_BET_STAKE=1
 
-declare -A DailyProfit
+declare -A dailyProfit
 
-read -p "enter the percentage of stack won or lost to quit game  " Quit_Percentage
-Quit_Stake=$(( ($Quit_Percentage*$BASE_STAKE)/100 ))
+read -p "enter the percentage of stack won or lost to quit game  " quit_Percentage
+quit_Stake=$(( ($quit_Percentage*$BASE_STAKE)/100 ))
 
-read -p "enter num of days to play the game " Days_Limit
+read -p "enter num of days to play the game " days_Limit
 
-function GamePerDay(){
+function gamePerDay(){
 
-	Stake_Left=$BASE_STAKE
+	stake_Left=$BASE_STAKE
 
-	while [ $Stake_Left -lt $(( $BASE_STAKE+$Quit_Stake )) ] && [ $Stake_Left -gt $(($BASE_STAKE-$Quit_Stake)) ]
+	while [ $stake_Left -lt $(( $BASE_STAKE+$quit_Stake )) ] && [ $stake_Left -gt $(($BASE_STAKE-$quit_Stake)) ]
 	do
 		case $(( $RANDOM%2 )) in
 
-			0) Stake_Left=$(( $Stake_Left-1 )) ;;
+			0) stake_Left=$(( $stake_Left-1 )) ;;
 
-			1) Stake_Left=$(( $Stake_Left+1 )) ;;
+			1) stake_Left=$(( $stake_Left+1 )) ;;
 		esac
 	done
 }
 
-function MonthlyFeedback(){
+function monthlyFeedback(){
 
-	Total_Profit=0
+	total_Profit=0
 
-	for (( num_of_days=1; num_of_days<=$Days_Limit; num_of_days++ ))
+	for (( num_Of_Days=1; num_Of_Days<=$days_Limit; num_Of_Days++ ))
 	do
-		GamePerDay
+		gamePerDay
 
-		if [ $Stake_Left -gt $BASE_STAKE ]
+		if [ $stake_Left -gt $BASE_STAKE ]
 		then
-			Total_Profit=$(( $Total_Profit+$(( $Stake_Left-$BASE_STAKE )) ))
+			total_Profit=$(( $total_Profit+$(( $sake_Left-$BASE_STAKE )) ))
 		else
-			Total_Profit=$(( $Total_Profit-$(( $BASE_STAKE-$Stake_Left )) ))
+			total_Profit=$(( $total_Profit-$(( $BASE_STAKE-$stake_Left )) ))
 		fi
 
-		DailyProfit[$num_of_days]=$Total_Profit
+		dailyProfit[$num_Of_Days]=$total_Profit
 	done
 
 }
 
 
-function LuckyAndUnluckyDay(){
+function luckyAndUnluckyDay(){
 
-	MonthlyFeedback
+	monthlyFeedback
 
 	echo "most luckiest day is : "
-	for element in ${!DailyProfit[*]}
+	for element in ${!dailyProfit[*]}
 	do
-		echo $element " : " ${DailyProfit[$element]}
+		echo $element " : " ${dailyProfit[$element]}
 	done | sort -n -k3 | tail -1
 
 	echo "most unluckiest day is : "
-        for element in ${!DailyProfit[*]}
+        for element in ${!dailyProfit[*]}
         do
-                echo $element " : " ${DailyProfit[$element]}
+                echo $element " : " ${dailyProfit[$element]}
         done | sort -n -k3 | head -1
 
 }
 
-function ContinueNextGamble(){
+function continueNextGamble(){
 
-	LuckyAndUnluckyDay
+	luckyAndUnluckyDay
 
-	while [ $Total_Profit -gt 0 ]
+	while [ $total_Profit -gt 0 ]
 	do 
-		LuckyAndUnluckyDay
+		luckyAndUnluckyDay
 
 	done
 }
 
-ContinueNextGamble
+continueNextGamble
