@@ -7,42 +7,42 @@ MIN_BET_STAKE=1
 
 declare -A dailyProfit
 
-read -p "enter the percentage of stack won or lost to quit game  " quit_Percentage
-quit_Stake=$(( ($quit_Percentage*$BASE_STAKE)/100 ))
+read -p "enter the percentage of stack won or lost to quit game  " quitPercentage
+quitStake=$(( ($quitPercentage*$BASE_STAKE)/100 ))
 
-read -p "enter num of days to play the game " days_Limit
+read -p "enter num of days to play the game " daysLimit
 
 function gamePerDay(){
 
-	stake_Left=$BASE_STAKE
+	stakeLeft=$BASE_STAKE
 
-	while [ $stake_Left -lt $(( $BASE_STAKE+$quit_Stake )) ] && [ $stake_Left -gt $(($BASE_STAKE-$quit_Stake)) ]
+	while [ $stakeLeft -lt $(( $BASE_STAKE+$quitStake )) ] && [ $stakeLeft -gt $(($BASE_STAKE-$quitStake)) ]
 	do
 		case $(( $RANDOM%2 )) in
 
-			0) stake_Left=$(( $stake_Left-1 )) ;;
+			0) stakeLeft=$(( $stakeLeft-1 )) ;;
 
-			1) stake_Left=$(( $stake_Left+1 )) ;;
+			1) stakeLeft=$(( $stakeLeft+1 )) ;;
 		esac
 	done
 }
 
 function monthlyFeedback(){
 
-	total_Profit=0
+	totalProfit=0
 
-	for (( num_Of_Days=1; num_Of_Days<=$days_Limit; num_Of_Days++ ))
+	for (( numOfDays=1; numOfDays<=$daysLimit; numOfDays++ ))
 	do
 		gamePerDay
 
-		if [ $stake_Left -gt $BASE_STAKE ]
+		if [ $stakeLeft -gt $BASE_STAKE ]
 		then
-			total_Profit=$(( $total_Profit+$(( $sake_Left-$BASE_STAKE )) ))
+			totalProfit=$(( $totalProfit+$(( $sakeLeft-$BASE_STAKE )) ))
 		else
-			total_Profit=$(( $total_Profit-$(( $BASE_STAKE-$stake_Left )) ))
+			totalProfit=$(( $totalProfit-$(( $BASE_STAKE-$stakeLeft )) ))
 		fi
 
-		dailyProfit[$num_Of_Days]=$total_Profit
+		dailyProfit[$numOfDays]=$totalProfit
 	done
 
 }
@@ -70,7 +70,7 @@ function continueNextGamble(){
 
 	luckyAndUnluckyDay
 
-	while [ $total_Profit -gt 0 ]
+	while [ $totalProfit -gt 0 ]
 	do 
 		luckyAndUnluckyDay
 
